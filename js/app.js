@@ -23,15 +23,18 @@ const loadCategories = () => {
         "flex",
         "justify-center",
         "items-center",
-        "gap-[24px]"
+        "md:gap-[24px]",
+        "gap-[12px]"
       );
       data.data.forEach((category) => {
         // console.log(category.category);
         const button = document.createElement("button");
         button.classList.add(
           "category-btn",
-          "px-[20px]",
-          "py-[8px]",
+          "md:px-[20px]",
+          "px-[10px]",
+          "md:py-[8px]",
+          "py-[3px]",
           "bg-[#d3dce3]",
           "rounded-[4px]",
           "text-[#5d5d5d]",
