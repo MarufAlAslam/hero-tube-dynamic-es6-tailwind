@@ -1,5 +1,11 @@
 const categories = document.getElementById("categories");
 const videos = document.getElementById("videos");
+let seconds = 0;
+let years = 0;
+let months = 0;
+let days = 0;
+let hours = 0;
+let minutes = 0;
 
 const loadCategories = () => {
   fetch("https://openapi.programming-hero.com/api/videos/categories", {
@@ -82,37 +88,77 @@ const loadVideos = (id) => {
           "gap-[24px]"
         );
         data.data.forEach((video) => {
+          seconds = video.others.posted_date;
+          years = Math.floor(seconds / (3600 * 24 * 365));
+          seconds -= years * 3600 * 24 * 365;
+          months = Math.floor(seconds / (3600 * 24 * 30));
+          seconds -= months * 3600 * 24 * 30;
+          days = Math.floor(seconds / (3600 * 24));
+          seconds -= days * 3600 * 24;
+          hours = Math.floor(seconds / 3600);
+          seconds -= hours * 3600;
+          minutes = Math.floor(seconds / 60);
+          seconds -= minutes * 60;
+          seconds = seconds.toFixed(0);
+
+          console.log({years, months, days, hours, minutes, seconds});
           const card = document.createElement("div");
           card.classList.add("card");
           card.innerHTML = `
-                  <div class="card-img">
+                  <div class="card-img relative">
                       <img src="${
                         video.thumbnail
-                      }" class="h-[200px] w-full object-cover object-center rounded-[8px]" alt="" />
+                      }" class="h-[200px] w-full object-cover object-center rounded-[8px]" alt="" />  
+                      ${
+                        seconds &&
+                        `<span class="text-[13px] bg-black inline-block px-[20px] text-white rounded-[4px] absolute bottom-[10px] right-[10px]">
+                        ${
+                            years > 0 ? `${years} yrs` : ''
+                        }
+                        ${
+                            months > 0 ? `${months} mons` : ''
+                        }
+                        ${
+                            days > 0 ? `${days} days` : ''
+                        }
+                        ${
+                            hours > 0 ? `${hours} hrs` : ''
+                        }
+                        ${
+                            minutes > 0 ? `${minutes} mins` : ''
+                        }
+                        ${
+                            seconds > 0 ? `${seconds} secs` : ''
+                        }
+                        ${
+                            video.others.posted_date ? `ago` : ''
+                        }
+                        </span>`
+                      }
                   </div>
 
                   <div class="card-body py-[20px]">
-                  <div class="flex justify-start items-start gap-[12px]">
-                  <img src="${
-                    video.authors[0].profile_picture
-                  }" class="h-[40px] w-[40px] rounded-full object-cover object-top" alt="" />
-                  <div className="details">
-                  <p class="text-lg font-bold">
-                  ${video.title}
-                  </p>
-                  <p class="text-sm text-[#5d5d5d] flex justify-start items-center gap-[10px]">
-                  ${video.authors[0].profile_name}
-                  ${
-                    video.authors[0].verified &&
-                    `<img src="img/verified.svg" alt="verified">`
-                  }
-                  </p>
-                  <p class="text-sm text-[#5d5d5d]">
-                  ${video.others.views} views
-                  </p>
-                  </div>
-                  </div>
-                  </div>
+                        <div class="flex justify-start items-start gap-[12px]">
+                            <img src="${
+                              video.authors[0].profile_picture
+                            }" class="h-[40px] w-[40px] rounded-full object-cover object-top" alt="" />
+                            <div className="details">
+                                <p class="text-lg font-bold">
+                                    ${video.title}
+                                </p>
+                                <p class="text-sm text-[#5d5d5d] flex justify-start items-center gap-[10px]">
+                                    ${video.authors[0].profile_name}
+                                    ${
+                                      video.authors[0].verified &&
+                                      `<img src="img/verified.svg" alt="verified">`
+                                    }
+                                </p>
+                                <p class="text-sm text-[#5d5d5d]">
+                                    ${video.others.views} views
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                   `;
 
           grid.appendChild(card);
