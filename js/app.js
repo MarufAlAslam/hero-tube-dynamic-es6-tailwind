@@ -77,9 +77,9 @@ const loadVideos = (id) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.data.length === 0) {
-        videos.innerHTML = `<div class="py-[200px] flex justify-center items-center text-center flex-col">
+        videos.innerHTML = `<div class="md:py-[100px] py-[40px] flex justify-center items-center text-center flex-col">
             <img src="img/error.svg" alt="error" class="w-[200px] h-[200px] mb-[32px]">
-            <h2 class="text-[32px] font-bold">
+            <h2 class="md:text-[32px] text-lg font-bold">
             Oops!! Sorry, There is no<br/> content here
             </h2>
             </div>`;
